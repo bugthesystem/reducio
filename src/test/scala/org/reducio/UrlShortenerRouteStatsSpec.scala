@@ -36,5 +36,15 @@ class UrlShortenerRouteStatsSpec extends SpecBase with BeforeAndAfterEach {
         status shouldEqual NotFound
       }
     }
+    "reply with `BadRequest` if url is malformed" in {
+      val url = "httX://w#$.se/games/star-wars-battlefront/"
+
+      urlShortenerServiceMock.stats(url) returns Future(None)
+
+      Get(s"/stats/?url=$url") ~> router.routes ~> check {
+        handled shouldEqual true
+        status shouldEqual BadRequest
+      }
+    }
   }
 }

@@ -56,5 +56,18 @@ class UrlShortenerRoutePostSpec extends SpecBase with BeforeAndAfterEach {
         location.get.value() shouldEqual s"$baseAddress/$expectedShortCode"
       }
     }
+
+    "return `badRequest` if URL shortening operation failed" in {
+      val urlToShorten = "http://www.dice.se/games/star-wars-battlefront/"
+      val urlShortenRequest = UrlShortenRequest(url = urlToShorten)
+      val urlShortenResult = UrlShortenResult("", opStatus = EntityOp.Failed)
+
+      urlShortenerServiceMock.shorten(urlShortenRequest) returns Future(urlShortenResult)
+
+      Post("/", FormData("url" -> urlToShorten).toEntity) ~> router.routes ~> check {
+        handled shouldEqual true
+        status shouldEqual BadRequest
+      }
+    }
   }
 }
