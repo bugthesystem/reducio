@@ -11,9 +11,9 @@ class StatsServiceSpec extends SpecBase with BeforeAndAfterEach {
       val key = "key"
       val callCount = 1L
       dataStoreMock.get[Long](key) returns Future(Some(callCount))
-      val urlShortener = new DefaultStatsService(dataStoreMock)
+      val statsService = new DefaultStatsService(dataStoreMock)
 
-      val resultFuture: Future[Option[Long]] = urlShortener.getStats(key)
+      val resultFuture: Future[Option[Long]] = statsService.getStats(key)
       val result: Option[Long] = Await.result(resultFuture, 5.seconds)
 
       result.get shouldEqual callCount
@@ -22,9 +22,9 @@ class StatsServiceSpec extends SpecBase with BeforeAndAfterEach {
     "return `None  if url does not exist" in {
       val key = "key"
       dataStoreMock.get[Long](key) returns Future(None)
-      val urlShortener = new DefaultStatsService(dataStoreMock)
+      val statsService = new DefaultStatsService(dataStoreMock)
 
-      val resultFuture: Future[Option[Long]] = urlShortener.getStats(key)
+      val resultFuture: Future[Option[Long]] = statsService.getStats(key)
       val result: Option[Long] = Await.result(resultFuture, 5.seconds)
 
       result.isEmpty shouldEqual true
@@ -33,9 +33,9 @@ class StatsServiceSpec extends SpecBase with BeforeAndAfterEach {
     "incr stats for URL" in {
       val key = "key"
       dataStoreMock.incr(key) returns Future(anyLong)
-      val urlShortener = new DefaultStatsService(dataStoreMock)
+      val statsService = new DefaultStatsService(dataStoreMock)
 
-      val resultFuture: Future[Long] = urlShortener.hit(key)
+      val resultFuture: Future[Long] = statsService.hit(key)
       val result: Long = Await.result(resultFuture, 5.seconds)
 
       result shouldEqual anyLong
