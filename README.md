@@ -15,6 +15,7 @@ Reduc.io
  - [Mockito](https://github.com/mockito/mockito)
  - [Gatling](https://gatling.io/)
 
+
 ## Commands
 
 ### Run
@@ -22,6 +23,19 @@ Reduc.io
 Run `docker-compose`, it will start `api`, `redis` and will expose api port to host.
 ```sh
 docker-compose up
+```
+## Sample usage
+
+```sh
+# Shorten
+curl -i http://localhost:9001/v1 -F "url=http://www.dice.se/games/star-wars-battlefront/"
+
+# Call shortened url
+for ((i=1;i<=100;i++)); do curl -i "http://localhost:9001/v1/{code}"; done
+
+
+# Get Stats
+curl -i "http://localhost:9001/v1/stats/?url=http://www.dice.se/games/star-wars-battlefront/"
 ```
 
 ### Create executable
