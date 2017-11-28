@@ -28,13 +28,13 @@ docker-compose up
 
 ```sh
 # Shorten
-curl -i http://localhost:9001/v1 -F "url=https://www.amazon.com/Star-Wars-Battlefront-II-Digital/dp/B072JZZ4XD"
+curl -i http://localhost:9001 -F "url=https://www.amazon.com/Star-Wars-Battlefront-II-Digital/dp/B072JZZ4XD"
 
 # Call shortened url
-for ((i=1;i<=100;i++)); do curl -i "http://localhost:9001/v1/SEwuXHhBQw"; done
+for ((i=1;i<=100;i++)); do curl -i "http://localhost:9001/SEwuXHhBQw"; done
 
 # Get Stats
-curl -i "http://localhost:9001/v1/stats/?url=https://www.amazon.com/Star-Wars-Battlefront-II-Digital/dp/B072JZZ4XD"
+curl -i "http://localhost:9001/stats/?url=https://www.amazon.com/Star-Wars-Battlefront-II-Digital/dp/B072JZZ4XD"
 
 # returns: {"callCount":100}
 ```

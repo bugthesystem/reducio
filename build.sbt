@@ -52,6 +52,7 @@ Revolver.settings
 enablePlugins(JavaAppPackaging)
 enablePlugins(GatlingPlugin)
 
+coverageExcludedFiles := ".*Main.*;.*Config.*"
 javaOptions in Gatling := overrideDefaultJavaOptions("-Xms1024m", "-Xmx2048m")
 
 fork in run := true
