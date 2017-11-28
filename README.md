@@ -13,6 +13,7 @@ Reduc.io
  - [ScalaTest](http://www.scalatest.org/)
  - [Specs2](https://github.com/etorreborre/specs2)
  - [Mockito](https://github.com/mockito/mockito)
+ - [Gatling](https://gatling.io/)
 
 ## Commands
 ### Run
