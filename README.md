@@ -1,7 +1,7 @@
-Reduc.io
+❯ reduc.io ❰
 ========
 
-> Simple URL shortener service
+> Simple URL shortener service reduc.io/wuXaq
 
 [![Build Status](https://travis-ci.org/ziyasal/reducio.svg?branch=master)](https://travis-ci.org/ziyasal/reducio) [![Coverage Status](https://coveralls.io/repos/github/ziyasal/reducio/badge.svg?branch=master)](https://coveralls.io/github/ziyasal/reducio?branch=master)
 
