@@ -7,17 +7,18 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 trait ShortCodeService {
-  def crateFor(url: String): Future[String]
+  def create(url: String): Future[String]
 }
 
 class DefaultShortCodeService extends ShortCodeService {
 
-  override def crateFor(url: String): Future[String] = {
+  override def create(url: String): Future[String] = {
 
     //We can get short code for url applying following approaches
     // 1. Using counter (Long) in some distributed store,
     //    convert to string with radix ie.32 and use it as short code
-    //    but this will increase network calls to retrieve counter
+    //    However this requires locking the counter which originally stored in a
+    //    distributed env: distributed locking is very costly. Also It causes a call on network for each request
     // 2. Calculating short code as following with cpu intensive approach without io call
     //    • get md5 hash of url as byte array
     //    • get last 4-bytes (32 bits)

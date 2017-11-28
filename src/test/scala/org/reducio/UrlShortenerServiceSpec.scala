@@ -16,7 +16,7 @@ class UrlShortenerServiceSpec extends SpecBase {
 
       dataStoreMock.get[String](urlAsKey(urlsafeEncode64(urlToShorten))) returns Future(None)
 
-      shortCodeServiceMock.crateFor(urlToShorten) returns Future(expectedCode)
+      shortCodeServiceMock.create(urlToShorten) returns Future(expectedCode)
       dataStoreMock.save[String](codeAsKey(expectedCode), urlToShorten) returns Future(true)
       dataStoreMock.save[String](urlAsKey(urlsafeEncode64(urlToShorten)), expectedCode) returns Future(true)
 

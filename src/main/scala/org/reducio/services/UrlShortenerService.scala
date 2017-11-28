@@ -83,7 +83,7 @@ class DefaultUrlShortenerService(
 
   private def save(url: String): Future[UrlShortenResult] = (
     for {
-      code <- shortCodeService.crateFor(url)
+      code <- shortCodeService.create(url)
       _ <- dataStore.save[String](codeAsKey(code), url)
       _ <- dataStore.save[String](urlAsKey(urlsafeEncode64(url)), code)
     } yield UrlShortenResult(code, opStatus = EntityOp.Created)).recover({

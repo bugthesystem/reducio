@@ -12,7 +12,7 @@ class ShortCodeServiceSpec extends SpecBase {
 
       val codeService = new DefaultShortCodeService()
 
-      val resultFuture: Future[String] = codeService.crateFor(url)
+      val resultFuture: Future[String] = codeService.create(url)
       val result: String = Await.result(resultFuture, 5.seconds)
 
       result shouldEqual key
