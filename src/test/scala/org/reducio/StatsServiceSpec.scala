@@ -6,7 +6,7 @@ import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
 class StatsServiceSpec extends SpecBase with BeforeAndAfterEach {
-  "Stats Service" should {
+  "Service" should {
     "return stats if url exist" in {
       val key = "key"
       val callCount = 1L

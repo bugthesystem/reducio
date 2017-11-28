@@ -6,7 +6,7 @@ import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
 class ShortCodeServiceSpec extends SpecBase with BeforeAndAfterEach {
-  "Short Code Service" should {
+  "Service" should {
     "return short code for url" in {
       val key = "B1hceEY1XHhCNA"
       val url = "http://www.dice.se/games/star-wars-battlefront/"
