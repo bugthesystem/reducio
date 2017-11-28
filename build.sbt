@@ -12,6 +12,10 @@ libraryDependencies ++= {
   val gatlingVersion = "2.3.0"
   val specs2Version = "4.0.0"
   val scalaTestVersion = "3.0.4"
+  val akkaHttpCirceVersion = "1.18.0"
+  val logbackVersion = "1.2.3"
+  val typesafeScalaLoggingVersion = "3.7.2"
+  val rediscalaVersion = "1.8.0"
 
   Seq(
     "io.circe" %% "circe-core" % circeVersion,
@@ -19,14 +23,13 @@ libraryDependencies ++= {
     "io.circe" %% "circe-parser" % circeVersion,
 
     "com.typesafe.akka" %% "akka-http" % akkaVersion,
-    "de.heikoseeberger" %% "akka-http-circe" % "1.18.0",
+    "de.heikoseeberger" %% "akka-http-circe" % akkaHttpCirceVersion,
 
     //Logging
-    "ch.qos.logback" % "logback-classic" % "1.2.3",
-    "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2",
+    "ch.qos.logback" % "logback-classic" % logbackVersion,
+    "com.typesafe.scala-logging" %% "scala-logging" % typesafeScalaLoggingVersion,
 
-    //    "org.slf4j" % "slf4j-nop" % "1.7.22",
-    "com.github.etaty" %% "rediscala" % "1.8.0",
+    "com.github.etaty" %% "rediscala" % rediscalaVersion,
 
     "org.scalactic" %% "scalactic" % scalaTestVersion % "test",
     "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
@@ -41,16 +44,15 @@ libraryDependencies ++= {
 
 lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
-  organization := "com.dice",
+  organization := "org.reducio",
   scalaVersion := "2.12.4",
   test in assembly := {}
 )
 
 Revolver.settings
 enablePlugins(JavaAppPackaging)
-enablePlugins(DockerPlugin)
-
 enablePlugins(GatlingPlugin)
+
 javaOptions in Gatling := overrideDefaultJavaOptions("-Xms1024m", "-Xmx2048m")
 
 fork in run := true

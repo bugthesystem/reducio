@@ -15,10 +15,10 @@ object Main extends App with Config {
   implicit val log: LoggingAdapter = Logging(actorSystem, getClass)
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-  val dataStore = new RedisDataStore(redisHost, redisPort)
-  val codeService = new DefaultShortCodeService()
-  val statService = new DefaultStatsService(dataStore)
-  val urlShortenerService = new DefaultUrlShortenerService(dataStore, codeService, statService)
+  lazy val dataStore = new RedisDataStore(redisHost, redisPort)
+  lazy val codeService = new DefaultShortCodeService()
+  lazy val statService = new DefaultStatsService(dataStore)
+  lazy val urlShortenerService = new DefaultUrlShortenerService(dataStore, codeService, statService)
 
   val router = new Router(urlShortenerService)
 

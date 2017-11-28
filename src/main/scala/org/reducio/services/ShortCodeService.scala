@@ -11,21 +11,19 @@ trait ShortCodeService {
 }
 
 class DefaultShortCodeService extends ShortCodeService {
-  private val Regex = """/==\n?$/""".r
 
   override def crateFor(url: String): Future[String] = {
 
-    //We can get short code for url applying at least 2 approaches
-    // 1. Using counter (Long) in some distributed store, 
+    //We can get short code for url applying following approaches
+    // 1. Using counter (Long) in some distributed store,
     //    convert to string with radix ie.32 and use it as short code
     //    but this will increase network calls to retrieve counter
-    // 2. Calculating short code as following with cpu intensive approach whitout io call
+    // 2. Calculating short code as following with cpu intensive approach without io call
     //    • get md5 hash of url as byte array
     //    • get last 4-bytes (32 bits)
     //    • pack it into a string using UTF-8 (in java default is UTF-16)
     //       ❯ try to read UTF-8 character otherwise format as constant-width hex representation
     //    • base64 encode the string and slice trailing junk from end
-    //
 
     Future {
       val md5Bytes = md5(url)
