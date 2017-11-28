@@ -3,7 +3,7 @@ Reduc.io
 
 > Simple URL shortener service
 
-[![Build Status](https://travis-ci.org/ziyasal/Reducio.svg?branch=master)](https://travis-ci.org/ziyasal/Reducio)
+[![Build Status](https://travis-ci.org/ziyasal/Reducio.svg?branch=master)](https://travis-ci.org/ziyasal/Reducio) [![Coverage Status](https://coveralls.io/repos/github/ziyasal/reducio/badge.svg?branch=master)](https://coveralls.io/github/ziyasal/reducio?branch=master)
 
 ## Tech stack
  - [Scala](https://www.scala-lang.org/)
