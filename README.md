@@ -1,7 +1,7 @@
 Reduc.io
 ========
 
-> URL Shortener service
+> Simple URL shortener service
 
 [![Build Status](https://travis-ci.org/ziyasal/Reducio.svg?branch=master)](https://travis-ci.org/ziyasal/Reducio)
 
