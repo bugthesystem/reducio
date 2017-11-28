@@ -11,7 +11,7 @@ import scala.concurrent.duration._
 
 class UrlShortenerServiceSpec extends SpecBase with BeforeAndAfterEach {
   "Url Shortener Service" should {
-    "shorten valid url if not exist" in {
+    "svalid url if not exist" in {
       val expectedCode = "6a6q6"
       val urlToShorten = "http://www.dice.se/games/star-wars-battlefront/"
       val request = UrlShortenRequest(url = urlToShorten)
@@ -102,7 +102,7 @@ class UrlShortenerServiceSpec extends SpecBase with BeforeAndAfterEach {
       result.isEmpty shouldEqual true
     }
 
-    "should clean all records for URL" in {
+    "should clean records for URL" in {
       val code = "6a6q6"
       val url = "http://www.dice.se/games/star-wars-battlefront/"
       val delResult = 2L
@@ -118,6 +118,19 @@ class UrlShortenerServiceSpec extends SpecBase with BeforeAndAfterEach {
       val result = Await.result(resultFuture, 5.seconds)
 
       result shouldEqual true
+    }
+
+    "return `false` for clean request if URL does not exists" in {
+      val url = "http://www.dice.se/games/star-wars-battlefront/"
+
+      dataStoreMock.get[String](urlAsKey(urlsafeEncode64(url))) returns Future(None)
+
+      val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
+
+      val resultFuture: Future[Boolean] = urlShortener.clean(url)
+      val result = Await.result(resultFuture, 5.seconds)
+
+      result shouldEqual false
     }
   }
 }

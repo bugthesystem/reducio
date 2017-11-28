@@ -25,7 +25,6 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-http" % akkaVersion,
     "de.heikoseeberger" %% "akka-http-circe" % akkaHttpCirceVersion,
 
-    //Logging
     "ch.qos.logback" % "logback-classic" % logbackVersion,
     "com.typesafe.scala-logging" %% "scala-logging" % typesafeScalaLoggingVersion,
 
