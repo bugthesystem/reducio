@@ -16,10 +16,8 @@ Reduc.io
  - [Gatling](https://gatling.io/)
 
 ## Commands
-### Run
-:warning: _If you want to use **`docker-compose`**, you can skip manual steps._
 
-### Docker
+### Run
 
 Run `docker-compose`, it will start `api`, `redis` and will expose api port to host.
 ```sh
