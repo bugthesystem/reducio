@@ -72,6 +72,7 @@ sbt coverageReport
 ## Improvements
  - Implement Authentication using JWT authentication protocol with OAuth2 authentication framework
  - API Documentation using swagger or similar
+ - Add Host blackListing
  - Redis integration tests using [`embedded redis`](https://github.com/kstyrc/embedded-redis) or similar
 
 ziλasal.
