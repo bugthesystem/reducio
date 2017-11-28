@@ -1,11 +1,10 @@
 package org.reducio
 
 import org.reducio.services.DefaultShortCodeService
-import org.scalatest.BeforeAndAfterEach
-import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
+import scala.concurrent.{ Await, Future }
 
-class ShortCodeServiceSpec extends SpecBase with BeforeAndAfterEach {
+class ShortCodeServiceSpec extends SpecBase {
   "Service" should {
     "return short code for url" in {
       val key = "B1hceEY1XHhCNA"

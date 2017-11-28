@@ -3,10 +3,9 @@ package org.reducio
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model.HttpHeader
 import akka.http.scaladsl.model.StatusCodes._
-import org.scalatest.BeforeAndAfterEach
 import scala.concurrent.Future
 
-class UrlShortenerRouteGetSpec extends SpecBase with BeforeAndAfterEach {
+class UrlShortenerRouteGetSpec extends SpecBase {
 
   def actorRefFactory: ActorSystem = system
 

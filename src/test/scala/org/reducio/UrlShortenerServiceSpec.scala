@@ -4,13 +4,12 @@ import org.reducio.models._
 import org.reducio.services.DefaultUrlShortenerService
 import org.reducio.util._
 import org.reducio.util.KeyUtils._
-import org.scalatest.BeforeAndAfterEach
 import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
-class UrlShortenerServiceSpec extends SpecBase with BeforeAndAfterEach {
+class UrlShortenerServiceSpec extends SpecBase {
   "Service" should {
-    "svalid url if not exist" in {
+    "valid url if not exist" in {
       val expectedCode = "6a6q6"
       val urlToShorten = "http://www.dice.se/games/star-wars-battlefront/"
       val request = UrlShortenRequest(url = urlToShorten)

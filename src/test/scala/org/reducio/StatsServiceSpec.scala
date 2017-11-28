@@ -1,11 +1,10 @@
 package org.reducio
 
 import org.reducio.services.DefaultStatsService
-import org.scalatest.BeforeAndAfterEach
 import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
-class StatsServiceSpec extends SpecBase with BeforeAndAfterEach {
+class StatsServiceSpec extends SpecBase {
   "Service" should {
     "return stats if url exist" in {
       val key = "key"

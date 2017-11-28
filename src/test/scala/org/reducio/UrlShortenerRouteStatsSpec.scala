@@ -3,15 +3,13 @@ package org.reducio
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model.StatusCodes._
 import org.reducio.models.Stats
-import org.scalatest.BeforeAndAfterEach
 import scala.concurrent.Future
 
-class UrlShortenerRouteStatsSpec extends SpecBase with BeforeAndAfterEach {
+class UrlShortenerRouteStatsSpec extends SpecBase {
 
   def actorRefFactory: ActorSystem = system
 
   "Shortener Api" should {
-
     "returns stats if url is exists" in {
       val url = "http://www.dice.se/games/star-wars-battlefront/"
       val callCount = 1L

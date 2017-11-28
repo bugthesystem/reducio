@@ -16,6 +16,7 @@ libraryDependencies ++= {
   val logbackVersion = "1.2.3"
   val typesafeScalaLoggingVersion = "3.7.2"
   val rediscalaVersion = "1.8.0"
+  val embeddedRedisVersion = "0.3.0"
 
   Seq(
     "io.circe" %% "circe-core" % circeVersion,
@@ -35,6 +36,7 @@ libraryDependencies ++= {
     "org.specs2" %% "specs2-core" % specs2Version % "test",
     "org.specs2" %% "specs2-mock" % specs2Version % "test",
     "com.typesafe.akka" %% "akka-http-testkit" % akkaVersion % "test",
+    "com.github.sebruck" %% "scalatest-embedded-redis" % embeddedRedisVersion,
 
     "io.gatling" % "gatling-test-framework" % gatlingVersion % "test,it",
     "io.gatling.highcharts" % "gatling-charts-highcharts" % gatlingVersion % "test,it"
@@ -54,5 +56,3 @@ enablePlugins(GatlingPlugin)
 
 coverageExcludedFiles := ".*Main.*;.*Config.*"
 javaOptions in Gatling := overrideDefaultJavaOptions("-Xms1024m", "-Xmx2048m")
-
-fork in run := true
