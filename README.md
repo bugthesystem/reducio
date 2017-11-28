@@ -69,9 +69,9 @@ sbt clean coverage test
 sbt coverageReport
 ```
 
-## Improvements / TODO
- - AUTH using JWT authentication protocol with OAuth2 authentication framework
- - API Documentation using swagger or similar tool/lib
- - Redis integration tests using [`embedded redis`](https://github.com/kstyrc/embedded-redis)
+## Improvements
+ - Implement Authentication using JWT authentication protocol with OAuth2 authentication framework
+ - API Documentation using swagger or similar
+ - Redis integration tests using [`embedded redis`](https://github.com/kstyrc/embedded-redis) or similar
 
 ziλasal.
