@@ -1,4 +1,4 @@
-❯ reduc.io ❰
+❱ reduc.io ❰
 ========
 
 > Simple URL shortener service reduc.io/wuXaq
