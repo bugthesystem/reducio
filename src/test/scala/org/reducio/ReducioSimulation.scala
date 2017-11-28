@@ -9,7 +9,7 @@ import scala.util.Random
 
 class ReducioSimulation extends Simulation {
 
-  val httpConf: HttpProtocolBuilder = http.baseURL("http://localhost:9001/v1")
+  val httpConf: HttpProtocolBuilder = http.baseURL("http://localhost:9001")
   val shortenAndFollowRedirectDisabledScenario: ScenarioBuilder =
     scenario("shorten -> FollowRedirect is Disabled")
       .exec(Shorten.shortenAndFollowRedirectDisabled)

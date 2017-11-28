@@ -10,8 +10,6 @@ class UrlShortenerRouteGetSpec extends SpecBase with BeforeAndAfterEach {
 
   def actorRefFactory: ActorSystem = system
 
-  val baseAddress = "http://localhost:9001/v1"
-
   "Shortener Api" should {
 
     "reply with long url as `Location` header when short url send" in {
@@ -20,7 +18,7 @@ class UrlShortenerRouteGetSpec extends SpecBase with BeforeAndAfterEach {
 
       urlShortenerServiceMock.get(code) returns Future(Some(expectedLongUrl))
 
-      Get(s"/v1/$code") ~> router.routes ~> check {
+      Get(s"/$code") ~> router.routes ~> check {
         handled shouldEqual true
         status shouldEqual Found
 
@@ -34,7 +32,7 @@ class UrlShortenerRouteGetSpec extends SpecBase with BeforeAndAfterEach {
 
       urlShortenerServiceMock.get(code) returns Future(None)
 
-      Get(s"/v1/$code") ~> router.routes ~> check {
+      Get(s"/$code") ~> router.routes ~> check {
         handled shouldEqual true
         status shouldEqual NotFound
       }

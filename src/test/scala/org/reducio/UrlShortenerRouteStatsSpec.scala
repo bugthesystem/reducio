@@ -10,8 +10,6 @@ class UrlShortenerRouteStatsSpec extends SpecBase with BeforeAndAfterEach {
 
   def actorRefFactory: ActorSystem = system
 
-  val baseAddress = "http://localhost:9001/v1"
-
   "Shortener Api" should {
 
     "returns stats if url is exists" in {
@@ -20,7 +18,7 @@ class UrlShortenerRouteStatsSpec extends SpecBase with BeforeAndAfterEach {
 
       urlShortenerServiceMock.stats(url) returns Future(Some(Stats(callCount)))
 
-      Get(s"/v1/stats/?url=$url") ~> router.routes ~> check {
+      Get(s"/stats/?url=$url") ~> router.routes ~> check {
         handled shouldEqual true
         status shouldEqual OK
 
@@ -33,7 +31,7 @@ class UrlShortenerRouteStatsSpec extends SpecBase with BeforeAndAfterEach {
 
       urlShortenerServiceMock.stats(url) returns Future(None)
 
-      Get(s"/v1/stats/?url=$url") ~> router.routes ~> check {
+      Get(s"/stats/?url=$url") ~> router.routes ~> check {
         handled shouldEqual true
         status shouldEqual NotFound
       }

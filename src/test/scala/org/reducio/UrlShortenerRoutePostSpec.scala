@@ -11,7 +11,7 @@ class UrlShortenerRoutePostSpec extends SpecBase with BeforeAndAfterEach {
 
   def actorRefFactory: ActorSystem = system
 
-  val baseAddress = "http://localhost:9001/v1"
+  val baseAddress = "http://example.com"
 
   "Shortener Api" should {
     "shorten valid url if not exist" in {
@@ -22,7 +22,7 @@ class UrlShortenerRoutePostSpec extends SpecBase with BeforeAndAfterEach {
 
       urlShortenerServiceMock.shorten(urlShortenRequest) returns Future(urlShortenResult)
 
-      Post("/v1", FormData("url" -> urlToShorten).toEntity) ~> router.routes ~> check {
+      Post("/", FormData("url" -> urlToShorten).toEntity) ~> router.routes ~> check {
         handled shouldEqual true
         status shouldEqual Created
 
@@ -34,7 +34,7 @@ class UrlShortenerRoutePostSpec extends SpecBase with BeforeAndAfterEach {
     "reply with `BadRequest` when invalid url posted" in {
       val urlToShorten = "httx:#/?!@_www.dice.se~/ga/"
 
-      Post("/v1", FormData("url" -> urlToShorten).toEntity) ~> router.routes ~> check {
+      Post("/", FormData("url" -> urlToShorten).toEntity) ~> router.routes ~> check {
         handled shouldEqual true
         status shouldEqual BadRequest
       }
@@ -48,7 +48,7 @@ class UrlShortenerRoutePostSpec extends SpecBase with BeforeAndAfterEach {
 
       urlShortenerServiceMock.shorten(urlShortenRequest) returns Future(urlShortenResult)
 
-      Post("/v1", FormData("url" -> urlToShorten).toEntity) ~> router.routes ~> check {
+      Post("/", FormData("url" -> urlToShorten).toEntity) ~> router.routes ~> check {
         handled shouldEqual true
         status shouldEqual Found
 

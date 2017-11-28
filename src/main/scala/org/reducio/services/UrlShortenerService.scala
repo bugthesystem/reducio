@@ -1,14 +1,11 @@
 package org.reducio.services
 
-import org.reducio.models.{ Stats, UrlShortenRequest, UrlShortenResult }
-import scala.concurrent.Future
-import scala.language.postfixOps
 import com.typesafe.scalalogging.LazyLogging
-import org.reducio.common._
 import org.reducio.models.{ EntityOp, Stats, UrlShortenRequest, UrlShortenResult }
 import org.reducio.persistence.DataStore
-import org.reducio.util._
-import org.reducio.util.KeyUtils._
+import org.reducio.util.KeyUtils.{ codeAsKey, urlAsKey, urlAsStatsKey }
+import org.reducio.util.urlsafeEncode64
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
@@ -20,7 +17,7 @@ trait UrlShortenerService {
 
   def stats(url: String): Future[Option[Stats]]
 
-  def clean(url: String): Future[Unit]
+  def clean(url: String): Future[Boolean]
 }
 
 class DefaultUrlShortenerService(
@@ -72,14 +69,16 @@ class DefaultUrlShortenerService(
     }
   }
 
-  override def clean(url: String): Future[Unit] = {
-    val urlOpt = dataStore.get[String](urlAsKey(urlsafeEncode64(url)))
-    urlOpt.map {
-      case Some(code) => purge(code, url)
-      case _ =>
-        logger.debug(s"There is no record to clean for requested URL($url)")
-        Future(())
-    }
+  override def clean(url: String): Future[Boolean] = {
+    for {
+      urlOpt: Option[String] <- dataStore.get[String](urlAsKey(urlsafeEncode64(url)))
+      result <- urlOpt match {
+        case Some(code) => purge(code, url)
+        case _ =>
+          logger.debug(s"There is no record to clean for requested URL($url)")
+          Future(false)
+      }
+    } yield result
   }
 
   private def save(url: String): Future[UrlShortenResult] = (
@@ -93,12 +92,15 @@ class DefaultUrlShortenerService(
         UrlShortenResult("", opStatus = EntityOp.Failed)
     })
 
-  private def purge(code: String, url: String): Unit = {
-    val (_, _, _) = parallel(
-      dataStore.delete(codeAsKey(code)),
-      dataStore.delete(urlAsKey(urlsafeEncode64(url))),
-      dataStore.delete(urlAsStatsKey(urlsafeEncode64(url))))
-    logger.debug(s"All records are purged for URL($url)")
+  private def purge(code: String, url: String): Future[Boolean] = {
+    logger.debug(s"All records will be purged for URL($url)")
+    (for {
+      _ <- dataStore.delete(codeAsKey(code))
+      _ <- dataStore.delete(urlAsKey(urlsafeEncode64(url)))
+      _ <- dataStore.delete(urlAsStatsKey(urlsafeEncode64(url)))
+    } yield true).recover({
+      case _: Throwable => false
+    })
   }
 
   private def predicate(condition: Boolean)(fail: Exception): Future[Unit] =

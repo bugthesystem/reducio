@@ -5,6 +5,7 @@ import org.reducio.services.DefaultUrlShortenerService
 import org.reducio.util._
 import org.reducio.util.KeyUtils._
 import org.scalatest.BeforeAndAfterEach
+
 import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
@@ -74,6 +75,49 @@ class UrlShortenerServiceSpec extends SpecBase with BeforeAndAfterEach {
       val result: Option[String] = Await.result(resultFuture, 5.seconds)
 
       result.isEmpty shouldEqual true
+    }
+
+    "return stats for URL" in {
+      val url = "http://www.dice.se/games/star-wars-battlefront/"
+      val expectedCallCount = 6L
+
+      statsServiceMock.getStats(urlAsStatsKey(urlsafeEncode64(url))) returns Future(Some(expectedCallCount))
+      val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
+
+      val resultFuture: Future[Option[Stats]] = urlShortener.stats(url)
+      val result: Option[Stats] = Await.result(resultFuture, 5.seconds)
+
+      result.get.callCount shouldEqual expectedCallCount
+    }
+
+    "return `None` if URL does not exists" in {
+      val url = "http://www.dice.se/games/star-wars-battlefront/"
+
+      statsServiceMock.getStats(urlAsStatsKey(urlsafeEncode64(url))) returns Future(None)
+      val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
+
+      val resultFuture: Future[Option[Stats]] = urlShortener.stats(url)
+      val result: Option[Stats] = Await.result(resultFuture, 5.seconds)
+
+      result.isEmpty shouldEqual true
+    }
+
+    "should clean all records for URL" in {
+      val code = "6a6q6"
+      val url = "http://www.dice.se/games/star-wars-battlefront/"
+      val delResult = 2L
+      dataStoreMock.get[String](urlAsKey(urlsafeEncode64(url))) returns Future(Some(code))
+
+      dataStoreMock.delete(codeAsKey(code)) returns Future(delResult)
+      dataStoreMock.delete(urlAsKey(urlsafeEncode64(url))) returns Future(delResult)
+      dataStoreMock.delete(urlAsStatsKey(urlsafeEncode64(url))) returns Future(delResult)
+
+      val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
+
+      val resultFuture: Future[Boolean] = urlShortener.clean(url)
+      val result = Await.result(resultFuture, 5.seconds)
+
+      result shouldEqual true
     }
   }
 }

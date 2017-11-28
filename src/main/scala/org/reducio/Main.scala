@@ -8,7 +8,7 @@ import org.reducio.persistence._
 import org.reducio.services._
 import scala.concurrent.ExecutionContext
 
-object Main extends App with Config {
+object Main extends App with RedisConfig with HttpConfig {
 
   implicit val actorSystem: ActorSystem = ActorSystem()
   implicit val executor: ExecutionContext = actorSystem.dispatcher
