@@ -50,13 +50,11 @@ sbt test
 ```
 #### Gatling Simulation
 ```sh
-sbt
+# terminal 1
+sbt run
 
-# Run simulation
-sbt> gatling:test
-
-# To see report
-sbt> gatling:latestReport
+# Run simulation in terminal 2
+sbt gatling:test gatling:latestReport
 ```
 
 ### Coverage
