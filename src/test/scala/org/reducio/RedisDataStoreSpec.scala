@@ -20,7 +20,7 @@ class RedisDataStoreSpec extends WordSpec with Matchers with EmbeddedRedis with 
         val key = "key"
         val value = "value"
 
-        val redisDataStore = new RedisDataStore(port = port)
+        val redisDataStore = new RedisDataStore(host = "localhost", port = port)
 
         val resultFuture: Future[Boolean] = redisDataStore.save[String](key, value)
         val result: Boolean = Await.result(resultFuture, 5.seconds)
@@ -34,7 +34,7 @@ class RedisDataStoreSpec extends WordSpec with Matchers with EmbeddedRedis with 
         val key = "key"
         val value = "value"
 
-        val redisDataStore = new RedisDataStore(port = port)
+        val redisDataStore = new RedisDataStore(host = "localhost", port = port)
 
         val saveFuture: Future[Boolean] = redisDataStore.save[String](key, value)
         val saveResult: Boolean = Await.result(saveFuture, 5.seconds)
@@ -52,7 +52,7 @@ class RedisDataStoreSpec extends WordSpec with Matchers with EmbeddedRedis with 
         val key = "key"
         val value = "value"
 
-        val redisDataStore = new RedisDataStore(port = port)
+        val redisDataStore = new RedisDataStore(host = "localhost", port = port)
 
         val saveFuture: Future[Boolean] = redisDataStore.save[String](key, value)
         val saveResult: Boolean = Await.result(saveFuture, 5.seconds)
@@ -69,7 +69,7 @@ class RedisDataStoreSpec extends WordSpec with Matchers with EmbeddedRedis with 
         val key = "key"
         val value = "value"
 
-        val redisDataStore = new RedisDataStore(port = port)
+        val redisDataStore = new RedisDataStore(host = "localhost", port = port)
 
         val saveFuture: Future[Boolean] = redisDataStore.save[String](key, value)
         val saveResult: Boolean = Await.result(saveFuture, 5.seconds)

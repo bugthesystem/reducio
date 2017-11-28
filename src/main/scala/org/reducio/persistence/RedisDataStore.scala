@@ -9,7 +9,7 @@ import redis.RedisClient
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class RedisDataStore(host: String = "127.0.0.1", port: Int = 6379)(implicit val actorSystem: ActorSystem)
+class RedisDataStore(host: String, port: Int)(implicit val actorSystem: ActorSystem)
   extends DataStore with LazyLogging {
 
   val redis = RedisClient(host = host, port = port)
