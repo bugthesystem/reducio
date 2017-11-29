@@ -1,5 +1,6 @@
 package org.reducio
 
+import com.typesafe.config.ConfigFactory
 import io.gatling.core.Predef._
 import io.gatling.core.structure.{ ChainBuilder, ScenarioBuilder }
 import io.gatling.http.Predef._
@@ -8,6 +9,12 @@ import scala.concurrent.duration._
 import scala.util.Random
 
 class ReducioSimulation extends Simulation {
+  private val config = ConfigFactory.load()
+
+  private val gatlingConfig = config.getConfig("gatling")
+
+  private val followRedirectDisabledUsers = gatlingConfig.getInt("shorten-and-follow-redirect-disabled-scenario-users")
+  private val followRedirectUsers = gatlingConfig.getInt("shorten-and-follow-redirect-scenario-users")
 
   val httpConf: HttpProtocolBuilder = http.baseURL("http://localhost:9001")
   val shortenAndFollowRedirectDisabledScenario: ScenarioBuilder =
@@ -19,8 +26,8 @@ class ReducioSimulation extends Simulation {
       .exec(Shorten.shortenAndFollowRedirect)
 
   setUp(
-    shortenAndFollowRedirectDisabledScenario.inject(atOnceUsers(100)),
-    shortenAndFollowRedirectScenario.inject(atOnceUsers(200))).protocols(httpConf)
+    shortenAndFollowRedirectDisabledScenario.inject(atOnceUsers(followRedirectDisabledUsers)),
+    shortenAndFollowRedirectScenario.inject(atOnceUsers(followRedirectUsers))).protocols(httpConf)
 }
 
 object Shorten {

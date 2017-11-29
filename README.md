@@ -49,6 +49,9 @@ sbt packageBin
 sbt test
 ```
 #### Gatling Simulation
+
+Simulation users count can be set in `application.conf` in test resources.
+
 ```sh
 # terminal 1
 sbt run
@@ -57,21 +60,16 @@ sbt run
 sbt gatling:test gatling:latestReport
 ```
 
-### Coverage
+### Coverage with Report
 ```sh
-sbt clean coverage test
-```
-
-**To create coverage report**
-```sh
-sbt coverageReport
+sbt clean coverage test coverageReport
 ```
 
 ## Improvements
  - Implement Authentication using JWT authentication protocol with OAuth2 authentication framework
  - API Documentation using swagger or similar
  - Add Host blackListing
- - Add Retry using [Retry](https://github.com/softprops/retry)
+ - Add Retry policies for `Redis` calls using [Retry](https://github.com/softprops/retry) or similar one
  - Add Throttling using [akka-http-contrib](https://github.com/adhoclabs/akka-http-contrib)
  - Add Metrics support using [akka-http-metrics](https://github.com/Backline/akka-http-metrics)
 

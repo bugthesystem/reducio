@@ -3,8 +3,8 @@ package org.reducio
 import akka.actor.ActorSystem
 import com.github.sebruck.EmbeddedRedis
 import org.reducio.persistence.RedisDataStore
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
-import scala.concurrent.{Await, Future}
+import org.scalatest.{ BeforeAndAfterAll, Matchers, WordSpec }
+import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
 class RedisDataStoreSpec extends WordSpec with Matchers with EmbeddedRedis with BeforeAndAfterAll {

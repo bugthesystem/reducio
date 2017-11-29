@@ -5,7 +5,6 @@ import org.reducio.models.{ EntityOp, Stats, UrlShortenRequest, UrlShortenResult
 import org.reducio.persistence.DataStore
 import org.reducio.util.KeyUtils.{ codeAsKey, urlAsKey, urlAsStatsKey }
 import org.reducio.util.urlsafeEncode64
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
