@@ -4,7 +4,6 @@ services:
     image: digitalgenius/alpine-scala-sbt
     hostname: api
     depends_on:
-      - db
       - redis
     environment:
       - REDIS_HOST=redis
