@@ -10,19 +10,19 @@ class UrlShortenerRouteStatsSpec extends SpecBase {
   def actorRefFactory: ActorSystem = system
 
   "Shortener Api" should {
-    
+
     "returns stats if url is exists" in {
       val url = "http://www.dice.se/games/star-wars-battlefront/"
 
       val expectedStats = Stats(callCount = 10L)
-      
+
       urlShortenerServiceMock.stats(url) returns Future(Some(expectedStats))
 
       Get(s"/stats/?url=$url") ~> router.routes ~> check {
         handled shouldEqual true
         status shouldEqual OK
 
-        responseAs[Stats] should equal expectedStats
+        responseAs[Stats] shouldEqual expectedStats
       }
     }
 
