@@ -12,15 +12,15 @@ class UrlShortenerRouteStatsSpec extends SpecBase {
   "Shortener Api" should {
     "returns stats if url is exists" in {
       val url = "http://www.dice.se/games/star-wars-battlefront/"
-      val callCount = 1
+      val callCount = 1L
 
-      urlShortenerServiceMock.stats(url) returns Future(Some(Stats(callCount = 1)))
+      urlShortenerServiceMock.stats(url) returns Future(Some(Stats(callCount = 1L)))
 
       Get(s"/stats/?url=$url") ~> router.routes ~> check {
         handled shouldEqual true
         status shouldEqual OK
 
-        responseAs[Stats] should equal(Stats(callCount = callCount))
+        responseAs[Stats].callCount shouldEqual callCount
       }
     }
 

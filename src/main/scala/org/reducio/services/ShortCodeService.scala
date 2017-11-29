@@ -1,6 +1,7 @@
 package org.reducio.services
 
-import java.nio.charset.{ Charset, StandardCharsets }
+import java.nio.{ ByteBuffer, CharBuffer }
+import java.nio.charset.{ CharacterCodingException, Charset, StandardCharsets }
 import java.security.MessageDigest
 import java.util.Base64
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -33,12 +34,11 @@ class DefaultShortCodeService extends ShortCodeService {
 
       val builder = new StringBuilder()
       byteArr.foreach { r =>
-        val tmpString = new String(Array(r), Charset.forName("UTF-8"))
-        val c = tmpString.toCharArray()(0)
-        if (c == '�' || c == '')
-          builder.append("\\x%02X ".format(r))
-        else
-          builder.append(c)
+        val bytes = Array(r)
+        isValidUTF8(bytes) match {
+          case Some(charBuffer) => builder.append(charBuffer)
+          case None => builder.append("\\x%02X ".format(r))
+        }
       }
 
       val utf8Str = builder.toString().replaceAll(" ", "")
@@ -46,7 +46,16 @@ class DefaultShortCodeService extends ShortCodeService {
     }
   }
 
-  private def md5(str: String): Array[Byte] = MessageDigest.getInstance("MD5").digest(str.getBytes)
+  def isValidUTF8(input: Array[Byte]): Option[CharBuffer] = {
+    val cs = Charset.forName("UTF-8").newDecoder
+    try {
+      Some(cs.decode(ByteBuffer.wrap(input)))
+    } catch {
+      case _: CharacterCodingException => None
+    }
+  }
+
+  private def md5(str: String) = MessageDigest.getInstance("MD5").digest(str.getBytes)
 
   private def base64(str: String): String = Base64.getEncoder.encodeToString(str.getBytes(StandardCharsets.UTF_8))
 }

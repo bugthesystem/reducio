@@ -84,5 +84,23 @@ class RedisDataStoreSpec extends WordSpec with Matchers with EmbeddedRedis with 
         getResult.isEmpty shouldEqual true
       }
     }
+
+    "incr key" in {
+      withRedis() { port =>
+        val key = "key"
+        val value = 1L
+
+        val redisDataStore = new RedisDataStore(host = "localhost", port = port)
+
+        val saveFuture: Future[Boolean] = redisDataStore.save[Long](key, value)
+        val saveResult: Boolean = Await.result(saveFuture, 5.seconds)
+
+        val incrFuture: Future[Long] = redisDataStore.incr(key)
+        val incrResult = Await.result(incrFuture, 5.seconds)
+
+        saveResult shouldEqual true
+        incrResult shouldEqual 2L
+      }
+    }
   }
 }
