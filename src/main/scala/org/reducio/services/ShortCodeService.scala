@@ -1,9 +1,6 @@
 package org.reducio.services
 
-import java.nio.{ ByteBuffer, CharBuffer }
-import java.nio.charset.{ CharacterCodingException, Charset, StandardCharsets }
-import java.security.MessageDigest
-import java.util.Base64
+import org.reducio.util._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -45,17 +42,4 @@ class DefaultShortCodeService extends ShortCodeService {
       base64(utf8Str).dropRight(2)
     }
   }
-
-  def isValidUTF8(input: Array[Byte]): Option[CharBuffer] = {
-    val cs = Charset.forName("UTF-8").newDecoder
-    try {
-      Some(cs.decode(ByteBuffer.wrap(input)))
-    } catch {
-      case _: CharacterCodingException => None
-    }
-  }
-
-  private def md5(str: String) = MessageDigest.getInstance("MD5").digest(str.getBytes)
-
-  private def base64(str: String): String = Base64.getEncoder.encodeToString(str.getBytes(StandardCharsets.UTF_8))
 }
