@@ -21,6 +21,7 @@
 ### Run
 
 Run `docker-compose`, it will start `api`, `redis` and will expose api port to host.
+
 ```sh
 docker-compose up
 ```
