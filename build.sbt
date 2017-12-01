@@ -36,7 +36,7 @@ libraryDependencies ++= {
     "org.specs2" %% "specs2-core" % specs2Version % "test",
     "org.specs2" %% "specs2-mock" % specs2Version % "test",
     "com.typesafe.akka" %% "akka-http-testkit" % akkaVersion % "test",
-    "com.github.sebruck" %% "scalatest-embedded-redis" % embeddedRedisVersion,
+    "com.github.sebruck" %% "scalatest-embedded-redis" % embeddedRedisVersion % "test",
 
     "io.gatling" % "gatling-test-framework" % gatlingVersion % "test,it",
     "io.gatling.highcharts" % "gatling-charts-highcharts" % gatlingVersion % "test,it"
