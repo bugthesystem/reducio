@@ -45,7 +45,7 @@ class DefaultUrlShortenerService(
 
     (for {
       exists <- dataStore.exists(codeAsKey(code))
-      _ <- predicate(exists)(new Exception("Key no found in data store"))
+      _ <- predicate(exists)(new Exception("Key not found in data store"))
       result <- dataStore.get[String](codeAsKey(code))
       _ <- result match {
         case Some(url) => statsService.hit(urlAsStatsKey(urlsafeEncode64(url)))
