@@ -20,7 +20,9 @@ class Router(urlService: UrlShortenerService) extends Directives with FailFastCi
         formFieldMap { fields: Map[String, String] =>
           extractRequestContext { ctx =>
             try {
+              //TODO: wrap it to future
               val uri = new URL(fields("url"))
+              
               onSuccess(urlService.shorten(UrlShortenRequest(url = uri.toString))) {
                 result =>
                   {
