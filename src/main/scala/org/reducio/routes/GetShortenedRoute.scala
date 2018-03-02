@@ -1,4 +1,4 @@
-package org.reducio.Routes
+package org.reducio.routes
 
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.model.headers.RawHeader

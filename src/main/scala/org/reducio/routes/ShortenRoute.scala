@@ -1,4 +1,4 @@
-package org.reducio.Routes
+package org.reducio.routes
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
