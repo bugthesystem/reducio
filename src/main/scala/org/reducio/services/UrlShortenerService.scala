@@ -1,10 +1,10 @@
 package org.reducio.services
 
 import com.typesafe.scalalogging.LazyLogging
-import org.reducio.models.{ EntityOp, Stats, UrlShortenRequest, UrlShortenResult }
+import org.reducio.models.{ EntityOperations, Stats, UrlShortenRequest, UrlShortenResult }
 import org.reducio.persistence.DataStore
 import org.reducio.util.KeyUtils.{ codeAsKey, urlAsKey, urlAsStatsKey }
-import org.reducio.util.urlsafeEncode64
+import org.reducio.util.urlSafeEncode64
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
@@ -33,7 +33,7 @@ class DefaultUrlShortenerService(
       result <- codeOpt match {
         case Some(code) =>
           logger.debug(s"The requested URL(${request.url}) is already shortened, so will return found one.")
-          Future.successful(UrlShortenResult(code, opStatus = EntityOp.Found))
+          Future.successful(UrlShortenResult(code, status = EntityOperations.EntityFound))
         case None => save(request.url)
       }
     } yield result
@@ -48,7 +48,7 @@ class DefaultUrlShortenerService(
       _ <- predicate(exists)(new Exception("Key not found in data store"))
       result <- dataStore.get[String](codeAsKey(code))
       _ <- result match {
-        case Some(url) => statsService.hit(urlAsStatsKey(urlsafeEncode64(url)))
+        case Some(url) => statsService.hit(urlAsStatsKey(urlSafeEncode64(url)))
         case None => Future(())
       }
     } yield result).recover({
@@ -59,7 +59,7 @@ class DefaultUrlShortenerService(
   }
 
   override def stats(url: String): Future[Option[Stats]] = {
-    statsService.getStats(urlAsStatsKey(urlsafeEncode64(url))) map {
+    statsService.getStats(urlAsStatsKey(urlSafeEncode64(url))) map {
       statsOpt: Option[Long] =>
         statsOpt match {
           case Some(callCount) => Some(Stats(callCount))
@@ -70,7 +70,7 @@ class DefaultUrlShortenerService(
 
   override def clean(url: String): Future[Boolean] = {
     for {
-      urlOpt: Option[String] <- dataStore.get[String](urlAsKey(urlsafeEncode64(url)))
+      urlOpt: Option[String] <- dataStore.get[String](urlAsKey(urlSafeEncode64(url)))
       result <- urlOpt match {
         case Some(code) => purge(code, url)
         case _ =>
@@ -84,19 +84,19 @@ class DefaultUrlShortenerService(
     for {
       code <- shortCodeService.create(url)
       _ <- dataStore.save[String](codeAsKey(code), url)
-      _ <- dataStore.save[String](urlAsKey(urlsafeEncode64(url)), code)
-    } yield UrlShortenResult(code, opStatus = EntityOp.Created)).recover({
+      _ <- dataStore.save[String](urlAsKey(urlSafeEncode64(url)), code)
+    } yield UrlShortenResult(code, status = EntityOperations.EntityCreated)).recover({
       case ex: Throwable =>
         logger.error("An error occurred while saving shortened url record.", ex)
-        UrlShortenResult("", opStatus = EntityOp.Failed)
+        UrlShortenResult("", status = EntityOperations.OperationFailed)
     })
 
   private def purge(code: String, url: String): Future[Boolean] = {
     logger.debug(s"All records will be purged for URL($url)")
     (for {
       _ <- dataStore.delete(codeAsKey(code))
-      _ <- dataStore.delete(urlAsKey(urlsafeEncode64(url)))
-      _ <- dataStore.delete(urlAsStatsKey(urlsafeEncode64(url)))
+      _ <- dataStore.delete(urlAsKey(urlSafeEncode64(url)))
+      _ <- dataStore.delete(urlAsStatsKey(urlSafeEncode64(url)))
     } yield true).recover({
       case _: Throwable => false
     })
@@ -105,5 +105,5 @@ class DefaultUrlShortenerService(
   private def predicate(condition: Boolean)(fail: Exception): Future[Unit] =
     if (condition) Future(()) else Future.failed(fail)
 
-  private def getByUrl(url: String): Future[Option[String]] = dataStore.get[String](urlAsKey(urlsafeEncode64(url)))
+  private def getByUrl(url: String): Future[Option[String]] = dataStore.get[String](urlAsKey(urlSafeEncode64(url)))
 }

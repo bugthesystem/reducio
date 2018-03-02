@@ -14,11 +14,11 @@ class UrlShortenerServiceSpec extends SpecBase {
       val urlToShorten = "http://www.dice.se/games/star-wars-battlefront/"
       val request = UrlShortenRequest(url = urlToShorten)
 
-      dataStoreMock.get[String](urlAsKey(urlsafeEncode64(urlToShorten))) returns Future(None)
+      dataStoreMock.get[String](urlAsKey(urlSafeEncode64(urlToShorten))) returns Future(None)
 
       shortCodeServiceMock.create(urlToShorten) returns Future(expectedCode)
       dataStoreMock.save[String](codeAsKey(expectedCode), urlToShorten) returns Future(true)
-      dataStoreMock.save[String](urlAsKey(urlsafeEncode64(urlToShorten)), expectedCode) returns Future(true)
+      dataStoreMock.save[String](urlAsKey(urlSafeEncode64(urlToShorten)), expectedCode) returns Future(true)
 
       val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
 
@@ -26,7 +26,7 @@ class UrlShortenerServiceSpec extends SpecBase {
       val result: UrlShortenResult = Await.result(resultFuture, 5.seconds)
 
       result.code shouldEqual expectedCode
-      result.opStatus shouldEqual EntityOp.Created
+      result.status shouldEqual EntityOperations.EntityCreated
     }
 
     "return existing short code if the URL exist" in {
@@ -34,7 +34,7 @@ class UrlShortenerServiceSpec extends SpecBase {
       val urlToShorten = "http://www.dice.se/games/star-wars-battlefront/"
       val request = UrlShortenRequest(url = urlToShorten)
 
-      dataStoreMock.get[String](urlAsKey(urlsafeEncode64(urlToShorten))) returns Future(Some(expectedCode))
+      dataStoreMock.get[String](urlAsKey(urlSafeEncode64(urlToShorten))) returns Future(Some(expectedCode))
 
       val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
 
@@ -42,7 +42,7 @@ class UrlShortenerServiceSpec extends SpecBase {
       val result: UrlShortenResult = Await.result(resultFuture, 5.seconds)
 
       result.code shouldEqual expectedCode
-      result.opStatus shouldEqual EntityOp.Found
+      result.status shouldEqual EntityOperations.EntityFound
     }
 
     "return short code for URL if exists" in {
@@ -51,7 +51,7 @@ class UrlShortenerServiceSpec extends SpecBase {
 
       dataStoreMock.exists(codeAsKey(code)) returns Future(true)
       dataStoreMock.get[String](codeAsKey(code)) returns Future(Some(expectedUrl))
-      statsServiceMock.hit(urlAsStatsKey(urlsafeEncode64(expectedUrl))) returns Future(anyLong)
+      statsServiceMock.hit(urlAsStatsKey(urlSafeEncode64(expectedUrl))) returns Future(anyLong)
 
       val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
 
@@ -79,7 +79,7 @@ class UrlShortenerServiceSpec extends SpecBase {
       val url = "http://www.dice.se/games/star-wars-battlefront/"
       val expectedCallCount = 6L
 
-      statsServiceMock.getStats(urlAsStatsKey(urlsafeEncode64(url))) returns Future(Some(expectedCallCount))
+      statsServiceMock.getStats(urlAsStatsKey(urlSafeEncode64(url))) returns Future(Some(expectedCallCount))
       val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
 
       val resultFuture: Future[Option[Stats]] = urlShortener.stats(url)
@@ -91,7 +91,7 @@ class UrlShortenerServiceSpec extends SpecBase {
     "return `None` if URL does not exists" in {
       val url = "http://www.dice.se/games/star-wars-battlefront/"
 
-      statsServiceMock.getStats(urlAsStatsKey(urlsafeEncode64(url))) returns Future(None)
+      statsServiceMock.getStats(urlAsStatsKey(urlSafeEncode64(url))) returns Future(None)
       val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
 
       val resultFuture: Future[Option[Stats]] = urlShortener.stats(url)
@@ -104,11 +104,11 @@ class UrlShortenerServiceSpec extends SpecBase {
       val code = "6a6q6"
       val url = "http://www.dice.se/games/star-wars-battlefront/"
       val delResult = 2L
-      dataStoreMock.get[String](urlAsKey(urlsafeEncode64(url))) returns Future(Some(code))
+      dataStoreMock.get[String](urlAsKey(urlSafeEncode64(url))) returns Future(Some(code))
 
       dataStoreMock.delete(codeAsKey(code)) returns Future(delResult)
-      dataStoreMock.delete(urlAsKey(urlsafeEncode64(url))) returns Future(delResult)
-      dataStoreMock.delete(urlAsStatsKey(urlsafeEncode64(url))) returns Future(delResult)
+      dataStoreMock.delete(urlAsKey(urlSafeEncode64(url))) returns Future(delResult)
+      dataStoreMock.delete(urlAsStatsKey(urlSafeEncode64(url))) returns Future(delResult)
 
       val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
 
@@ -121,7 +121,7 @@ class UrlShortenerServiceSpec extends SpecBase {
     "return `false` for clean request if URL does not exists" in {
       val url = "http://www.dice.se/games/star-wars-battlefront/"
 
-      dataStoreMock.get[String](urlAsKey(urlsafeEncode64(url))) returns Future(None)
+      dataStoreMock.get[String](urlAsKey(urlSafeEncode64(url))) returns Future(None)
 
       val urlShortener = new DefaultUrlShortenerService(dataStoreMock, shortCodeServiceMock, statsServiceMock)
 

@@ -17,7 +17,7 @@ class UrlShortenerRoutePostSpec extends SpecBase {
       val expectedShortCode: String = "6a6q6"
       val urlToShorten = "http://www.dice.se/games/star-wars-battlefront/"
       val urlShortenRequest = UrlShortenRequest(url = urlToShorten)
-      val urlShortenResult = UrlShortenResult(code = expectedShortCode, opStatus = EntityOp.Created)
+      val urlShortenResult = UrlShortenResult(code = expectedShortCode, status = EntityOperations.EntityCreated)
 
       urlShortenerServiceMock.shorten(urlShortenRequest) returns Future(urlShortenResult)
 
@@ -43,7 +43,7 @@ class UrlShortenerRoutePostSpec extends SpecBase {
       val expectedShortCode: String = "6a6q6"
       val urlToShorten = "http://www.dice.se/games/star-wars-battlefront/"
       val urlShortenRequest = UrlShortenRequest(url = urlToShorten)
-      val urlShortenResult = UrlShortenResult(code = expectedShortCode, opStatus = EntityOp.Found)
+      val urlShortenResult = UrlShortenResult(code = expectedShortCode, status = EntityOperations.EntityFound)
 
       urlShortenerServiceMock.shorten(urlShortenRequest) returns Future(urlShortenResult)
 
@@ -59,7 +59,7 @@ class UrlShortenerRoutePostSpec extends SpecBase {
     "return `badRequest` if URL shortening operation failed" in {
       val urlToShorten = "http://www.dice.se/games/star-wars-battlefront/"
       val urlShortenRequest = UrlShortenRequest(url = urlToShorten)
-      val urlShortenResult = UrlShortenResult("", opStatus = EntityOp.Failed)
+      val urlShortenResult = UrlShortenResult("", status = EntityOperations.OperationFailed)
 
       urlShortenerServiceMock.shorten(urlShortenRequest) returns Future(urlShortenResult)
 

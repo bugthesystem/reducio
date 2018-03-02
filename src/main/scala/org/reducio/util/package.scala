@@ -1,12 +1,15 @@
 package org.reducio
 
+import java.net.URL
 import java.nio.{ ByteBuffer, CharBuffer }
 import java.nio.charset.{ CharacterCodingException, Charset, StandardCharsets }
 import java.security.MessageDigest
 import java.util.Base64
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 package object util {
-  def urlsafeEncode64(input: String): String =
+  def urlSafeEncode64(input: String): String =
     Base64.getUrlEncoder.encodeToString(input.getBytes(StandardCharsets.UTF_8))
 
   def isValidUTF8(input: Array[Byte]): Option[CharBuffer] = {
@@ -32,6 +35,20 @@ package object util {
     def urlAsKey(url: String): String = UrlKeyTemplate.format(url)
 
     def urlAsStatsKey(url: String): String = StatsKeyTemplate.format(url)
+  }
+
+  object HttpUtils {
+    def https(url: String, useHttps: Boolean): String = if (useHttps) s"https://$url" else s"http://$url"
+
+    def validateUri(urlField: String): Future[Option[String]] = {
+      try {
+        val _ = new URL(urlField)
+        Future(Some(urlField))
+      } catch {
+        case _: Throwable =>
+          Future(None)
+      }
+    }
   }
 
 }

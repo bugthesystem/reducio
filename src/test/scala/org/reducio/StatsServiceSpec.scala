@@ -7,10 +7,10 @@ import scala.concurrent.duration._
 class StatsServiceSpec extends SpecBase {
   "Service" should {
     "return stats if url exist" in {
-      
+
       val key = "key"
       val callCount = 1L
-      
+
       dataStoreMock.get[Long](key) returns Future(Some(callCount))
       val statsService = new DefaultStatsService(dataStoreMock)
 

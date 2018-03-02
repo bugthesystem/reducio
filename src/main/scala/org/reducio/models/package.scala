@@ -13,11 +13,11 @@ package object models {
 
   case class Stats(callCount: Long)
 
-  object EntityOp extends Enumeration {
-    type OpStatus = Value
-    val Created, Found, Failed = Value
+  object EntityOperations extends Enumeration {
+    type OperationStatus = Value
+    val EntityCreated, EntityFound, OperationFailed = Value
   }
 
-  case class UrlShortenResult(code: String, opStatus: EntityOp.OpStatus)
+  case class UrlShortenResult(code: String, status: EntityOperations.OperationStatus)
 
 }
