@@ -1,10 +1,12 @@
 package org.reducio.routes
 
+import java.net.MalformedURLException
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 import akka.http.scaladsl.model.StatusCodes._
-import akka.http.scaladsl.server.{ Directives, Route }
+import akka.http.scaladsl.server.{ Directives, ExceptionHandler, Route }
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport
 import io.circe.syntax._
 import org.reducio.HttpConfig
@@ -17,16 +19,30 @@ case class StatsRoute(urlService: UrlShortenerService)
   with FailFastCirceSupport
   with HttpConfig {
 
+  val statsExcHandler = ExceptionHandler {
+    case _: MalformedURLException =>
+      extractUri { _ =>
+        complete(BadRequest)
+      }
+  }
+
+  def validateAndGetStats(url: String): Future[Option[Stats]] = for {
+    uriOpt: Option[String] <- validateUri(url)
+    statsResult <- uriOpt match {
+      case Some(uri) => urlService.stats(uri.toString)
+      case None => Future.failed(new MalformedURLException(s"$url is invalid."))
+    }
+  } yield statsResult
+
   val routes: Route =
-    pathPrefix("stats"./) {
-      parameter('url) { url =>
-        validateUri(url) match {
-          case Some(uri) => onSuccess(urlService.stats(uri)) {
+    handleExceptions(statsExcHandler) {
+      pathPrefix("stats"./) {
+        parameter('url) { url =>
+          onSuccess(validateAndGetStats(url)) {
             case Some(stats: Stats) => complete(OK, stats.asJson)
             case None => complete(NotFound)
           }
-          case None => complete(BadRequest)
         }
       }
     }
-)
+}

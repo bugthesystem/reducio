@@ -21,7 +21,7 @@ case class ShortenRoute(urlService: UrlShortenerService)
   def validateAndShorten(url: String): Future[UrlShortenResult] = for {
     uriOpt: Option[String] <- validateUri(url)
     shortenResult <- uriOpt match {
-      case Some(uri) => urlService.shorten(UrlShortenRequest(url = uri.toString))
+      case Some(uri) => urlService.shorten(UrlShortenRequest(uri))
       case None => Future(UrlShortenResult(code = "", status = OperationFailed))
     }
   } yield shortenResult
