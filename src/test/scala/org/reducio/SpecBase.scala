@@ -9,10 +9,13 @@ import org.specs2.mock.Mockito
 import scala.language.postfixOps
 
 trait SpecBase extends WordSpec
-  with Matchers with ScalatestRouteTest
-  with Mockito with FailFastCirceSupport {
+  with Matchers
+  with ScalatestRouteTest
+  with Mockito 
+  with FailFastCirceSupport {
 
   val dataStoreMock: DataStore = mock[DataStore]
+  
   val urlShortenerServiceMock: UrlShortenerService = mock[UrlShortenerService]
   val shortCodeServiceMock: ShortCodeService = mock[ShortCodeService]
   val statsServiceMock: StatsService = mock[StatsService]
