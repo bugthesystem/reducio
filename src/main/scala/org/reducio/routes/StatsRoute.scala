@@ -17,22 +17,17 @@ case class StatsRoute(urlService: UrlShortenerService)
   with FailFastCirceSupport
   with HttpConfig {
 
-  def validateAndGetStats(url: String): Future[Option[Stats]] = for {
-    uriOpt: Option[String] <- validateUri(url)
-    statsResult <- uriOpt match {
-      case Some(uri) => urlService.stats(uri.toString)
-      case None => Future(None)
-    }
-  } yield statsResult
-
   val routes: Route =
     pathPrefix("stats"./) {
       parameter('url) { url =>
-        onSuccess(validateAndGetStats(url)) {
-          case Some(stats: Stats) => complete(OK, stats.asJson)
-          case None => complete(NotFound)
+        validateUri(url) match {
+          case Some(uri) => onSuccess(urlService.stats(uri)) {
+            case Some(stats: Stats) => complete(OK, stats.asJson)
+            case None => complete(NotFound)
+          }
         }
+        case None => complete(BadRequest)
       }
     }
 }
-
+)
