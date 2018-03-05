@@ -25,9 +25,8 @@ case class StatsRoute(urlService: UrlShortenerService)
             case Some(stats: Stats) => complete(OK, stats.asJson)
             case None => complete(NotFound)
           }
+          case None => complete(BadRequest)
         }
-        case None => complete(BadRequest)
       }
     }
-}
 )
