@@ -17,20 +17,8 @@ class RedisDataStore(host: String, port: Int)(implicit val actorSystem: ActorSys
   override def save[T](key: String, obj: T)(implicit encoder: Encoder[T]): Future[Boolean] =
     redis.set(key, obj.asJson.noSpaces)
 
-  override def get[T](key: String)(implicit decoder: Decoder[T]): Future[Option[T]] = for {
-    getOpt <- redis.get(key)
-    result <- Future {
-      getOpt match {
-        case Some(x) =>
-          val decoded: Either[Error, T] = decode[T](x.utf8String)
-          decoded match {
-            case Right(m) => Some(m)
-            case Left(_) => None
-          }
-        case None => None
-      }
-    }
-  } yield result
+  override def get[T](key: String)(implicit decoder: Decoder[T]): Future[Option[T]] =
+    redis.get(key).map(_.flatMap(v => decode[T](v.utf8String).toOption))
 
   override def delete(key: String): Future[Long] = redis.del(key)
 
