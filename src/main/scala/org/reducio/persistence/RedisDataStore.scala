@@ -25,4 +25,5 @@ class RedisDataStore(host: String, port: Int)(implicit val actorSystem: ActorSys
   override def exists(key: String): Future[Boolean] = redis.exists(key)
 
   override def incr(key: String): Future[Long] = redis.incr(key)
+
 }
