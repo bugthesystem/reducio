@@ -84,11 +84,11 @@ class DefaultUrlShortenerService(
     // TODO: Collision handling
     // Since I perform a CPU intensive io-free
     // (distributed cache, snowflake service etc) algorithm to calculate
-    // short-code we will most probably create the same code for different
-    // URLs (I couldn't reproduce the case yet but it is highly possible).
+    // short-code we -might- create the same code for different
+    // URLs (I couldn't reproduce the case yet but it is possible).
     // So it requires following another strategy (distributed counter, snowflake etc)
-    // when I hit to this situation. This will add a more complex by mixing approaches
-    // but we will keep performing well for the collision-free case.
+    // when we hit to this case. This will add more complexity by mixing approaches
+    // but it will keep performing well for the collision-free case.
 
     for {
       code <- shortCodeService.create(url)
