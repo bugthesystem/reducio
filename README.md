@@ -1,20 +1,24 @@
-❱ reduc.io ❰
-========
+# ❱ reduc.io ❰
 
 > URL shortener service `http://reduc.io/wuXaq`
 
 [![Build Status](https://travis-ci.org/ziyasal/reducio.svg?branch=master)](https://travis-ci.org/ziyasal/reducio) [![Coverage Status](https://coveralls.io/repos/github/ziyasal/reducio/badge.svg?branch=master)](https://coveralls.io/github/ziyasal/reducio?branch=master)
 
 ## Tech stack
- - [Scala](https://www.scala-lang.org/)
- - [Akka Http](https://github.com/akka/akka-http)
- - [Circe](https://github.com/circe/circe)
- - [Redis](https://github.com/antirez/redis)
- - [ScalaTest](http://www.scalatest.org/)
- - [Specs2](https://github.com/etorreborre/specs2)
- - [Mockito](https://github.com/mockito/mockito)
- - [Gatling](https://gatling.io/)
 
+- [Scala](https://www.scala-lang.org/)
+- [Akka Http](https://github.com/akka/akka-http)
+- [Circe](https://github.com/circe/circe)
+- [Redis](https://github.com/antirez/redis)
+- [ScalaTest](http://www.scalatest.org/)
+- [Specs2](https://github.com/etorreborre/specs2)
+- [Mockito](https://github.com/mockito/mockito)
+- [Gatling](https://gatling.io/)
+
+## Alternative solutions
+
+We could use following short code gen also:
+substr(base62(md5(url)), 6) = 62 ^ 6 unique short urls
 
 ## Commands
 
@@ -25,6 +29,7 @@ Run `docker-compose`, it will start `api`, `redis` and will expose api port to h
 ```sh
 docker-compose up
 ```
+
 ## Sample usage
 
 ```sh
@@ -41,14 +46,17 @@ curl -i "http://localhost:9001/stats/?url=https://www.amazon.com/Star-Wars-Battl
 ```
 
 ### Create executable
+
 ```sh
 sbt packageBin
 ```
 
 ### Test
+
 ```sh
 sbt test
 ```
+
 #### Gatling Simulation
 
 Simulation users count can be set in `application.conf` in test resources.
@@ -62,16 +70,18 @@ sbt gatling:test gatling:latestReport
 ```
 
 ### Coverage with Report
+
 ```sh
 sbt clean coverage test coverageReport
 ```
 
 ## Improvements
- - Implement Authentication using JWT authentication protocol with OAuth2 authentication framework
- - API Documentation using swagger or similar
- - Add Host blackListing
- - Add Retry policies for `Redis` calls using [Retry](https://github.com/softprops/retry) or similar one
- - Add Throttling using [akka-http-contrib](https://github.com/adhoclabs/akka-http-contrib)
- - Add Metrics support using [akka-http-metrics](https://github.com/Backline/akka-http-metrics)
 
-ziλasal.
+- Implement Authentication using JWT authentication protocol with OAuth2 authentication framework
+- API Documentation using swagger or similar
+- Add Host blackListing
+- Add Retry policies for `Redis` calls using [Retry](https://github.com/softprops/retry) or similar one
+- Add Throttling using [akka-http-contrib](https://github.com/adhoclabs/akka-http-contrib)
+- Add Metrics support using [akka-http-metrics](https://github.com/Backline/akka-http-metrics)
+
+z i λ a s a l.

@@ -24,6 +24,8 @@ class DefaultShortCodeService extends ShortCodeService {
     //       ❯ try to read UTF-8 character otherwise format as constant-width hex representation
     //    • base64 encode the string and slice trailing junk from end
 
+    // Question: How to calculate max possible amount of short code which we can generate
+    // by using following algorithm.
     Future {
       val md5Bytes = md5(url)
 
