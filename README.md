@@ -18,7 +18,9 @@
 ## Alternative solutions
 
 We could use following short code gen also:
-substr(base62(md5(url)), 6) = 62 ^ 6 unique short urls
+```
+substr(base62(md5(url)), 6) = 62 ^ 6 //unique short urls
+```
 
 ## Commands
 
