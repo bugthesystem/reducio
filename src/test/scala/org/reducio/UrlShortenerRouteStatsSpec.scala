@@ -9,9 +9,10 @@ class UrlShortenerRouteStatsSpec extends SpecBase {
 
   def actorRefFactory: ActorSystem = system
 
-  "Shortener Api" should {
+  "Url Shortener Api" should {
 
     "returns stats if url exists" in {
+      
       val url = "http://www.dice.se/games/star-wars-battlefront/"
 
       val expectedStats = Stats(callCount = 10L)
