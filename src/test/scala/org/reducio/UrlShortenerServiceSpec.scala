@@ -102,6 +102,7 @@ class UrlShortenerServiceSpec extends SpecBase {
     }
 
     "clean records for URL" in {
+      
       val code = "6a6q6"
       val url = "http://www.dice.se/games/star-wars-battlefront/"
       val delResult = 2L
