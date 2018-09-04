@@ -11,7 +11,7 @@ class UrlShortenerRouteGetSpec extends SpecBase {
 
   "Shortener Api" should {
 
-    "reply with long url as `Location` header when short url send" in {
+    "reply with long url as `Location` header when short url sent" in {
       val code: String = "6a6q6"
       val expectedLongUrl = "http://www.dice.se/games/star-wars-battlefront/"
 
@@ -26,7 +26,7 @@ class UrlShortenerRouteGetSpec extends SpecBase {
       }
     }
 
-    "reply with `NotFound` when non-existing short url send" in {
+    "reply with `NotFound` when non-existing short url sent" in {
       val code: String = "6a6q6"
 
       urlShortenerServiceMock.get(code) returns Future(None)
