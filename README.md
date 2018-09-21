@@ -78,12 +78,16 @@ sbt clean coverage test coverageReport
 ```
 
 ## Improvements
-
+- Seperate read and write API's
+- Move metrics to different data store and API
+- Add DB support by having write master/replicaass and have read replicas
+- Move hit counts to MapReduce job and generate them from the Web Server logs
 - Implement Authentication using JWT authentication protocol with OAuth2 authentication framework
 - API Documentation using swagger or similar
 - Add Host blackListing
 - Add Retry policies for `Redis` calls using [Retry](https://github.com/softprops/retry) or similar one
 - Add Throttling using [akka-http-contrib](https://github.com/adhoclabs/akka-http-contrib)
 - Add Metrics support using [akka-http-metrics](https://github.com/Backline/akka-http-metrics)
+
 
 z i λ a s a l.
