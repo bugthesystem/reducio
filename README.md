@@ -79,8 +79,8 @@ sbt clean coverage test coverageReport
 
 ## Improvements
 - Seperate read and write API's
-- Move metrics to different data store and API
-- Add DB support by having write master/replicaass and have read replicas
+- Move statistics to different data store and API
+- Add DB support by having write master/replicas and have read replicas
 - Move hit counts to MapReduce job and generate them from the Web Server logs
 - Implement Authentication using JWT authentication protocol with OAuth2 authentication framework
 - API Documentation using swagger or similar
