@@ -7,7 +7,7 @@ import scala.concurrent.duration._
 class StatsServiceSpec extends SpecBase {
   
   "Service" should {
-    "return stats if url exist" in {
+    "return stats if url exists" in {
 
       val key = "key"
       val callCount = 1L
