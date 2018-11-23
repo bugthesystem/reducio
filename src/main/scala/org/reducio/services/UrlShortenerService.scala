@@ -84,9 +84,8 @@ class DefaultUrlShortenerService(
     // TODO: Collision handling
     // Since I perform a CPU intensive io-free
     // (distributed cache, snowflake service etc) algorithm to calculate
-    // short-code we -might- create the same code for different
-    // URLs (I couldn't reproduce the case yet but it is possible).
-    // So it requires following another strategy (distributed counter, snowflake etc)
+    // short-code we -might- create the same code for different URLs
+    // So it requires to follow another strategy (distributed counter, snowflake etc)
     // when we hit to this case. This will add more complexity by mixing approaches
     // but it will keep performing well for the collision-free case.
 
