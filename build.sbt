@@ -12,7 +12,7 @@ libraryDependencies ++= {
   
   val gatlingVersion = "2.3.1"
   val specs2Version = "4.0.5"
-  val scalaTestVersion = "3.0.7"
+  val scalaTestVersion = "3.0.8"
   
   val akkaHttpCirceVersion = "1.18.0"
   val logbackVersion = "1.2.3"
