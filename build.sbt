@@ -16,7 +16,7 @@ libraryDependencies ++= {
   
   val akkaHttpCirceVersion = "1.18.0"
   val logbackVersion = "1.2.3"
-  val typesafeScalaLoggingVersion = "3.7.2"
+  val typesafeScalaLoggingVersion = "3.9.2"
   val rediscalaVersion = "1.8.0"
   val embeddedRedisVersion = "0.3.0"
 
