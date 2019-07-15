@@ -8,7 +8,7 @@ scalacOptions in Test ++= Seq("-Yrangepos")
 
 libraryDependencies ++= {
   val circeVersion = "0.11.1"
-  val akkaVersion = "10.0.10"
+  val akkaVersion = "10.0.15"
   
   val gatlingVersion = "2.3.1"
   val specs2Version = "4.6.0"
