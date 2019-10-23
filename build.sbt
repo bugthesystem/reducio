@@ -10,7 +10,7 @@ libraryDependencies ++= {
   val circeVersion = "0.11.1"
   val akkaVersion = "10.0.10"
   
-  val gatlingVersion = "2.3.1"
+  val gatlingVersion = "3.3.0"
   val specs2Version = "4.6.0"
   val scalaTestVersion = "3.0.7"
   
