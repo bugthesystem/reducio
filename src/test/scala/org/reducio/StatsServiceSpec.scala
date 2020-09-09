@@ -5,7 +5,7 @@ import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
 class StatsServiceSpec extends SpecBase {
-  
+
   "Service" should {
     "return stats if url exists" in {
 
@@ -43,5 +43,5 @@ class StatsServiceSpec extends SpecBase {
       result shouldEqual anyLong
     }
   }
-  
+
 }
