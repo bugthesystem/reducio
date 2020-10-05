@@ -12,7 +12,7 @@ class UrlShortenerRouteStatsSpec extends SpecBase {
   "Url Shortener Api" should {
 
     "returns stats if url exists" in {
-      
+
       val url = "http://www.dice.se/games/star-wars-battlefront/"
 
       val expectedStats = Stats(callCount = 10L)
