@@ -10,7 +10,7 @@ import scala.concurrent.duration._
 class UrlShortenerServiceSpec extends SpecBase {
   "Service" should {
     "valid url if not exist" in {
-      
+
       val expectedCode = "6a6q6"
       val urlToShorten = "http://www.dice.se/games/star-wars-battlefront/"
       val request = UrlShortenRequest(url = urlToShorten)
@@ -102,7 +102,7 @@ class UrlShortenerServiceSpec extends SpecBase {
     }
 
     "clean records for URL" in {
-      
+
       val code = "6a6q6"
       val url = "http://www.dice.se/games/star-wars-battlefront/"
       val delResult = 2L
