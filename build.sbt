@@ -1,7 +1,7 @@
 name := "Reduc.io"
 organization := "org.reducio"
 version := "0.1-SNAPSHOT"
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.15"
 scalacOptions := Seq("-unchecked", "-feature", "-deprecation", "-encoding", "utf8")
 
 scalacOptions in Test ++= Seq("-Yrangepos")
@@ -48,7 +48,7 @@ libraryDependencies ++= {
 lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
   organization := "org.reducio",
-  scalaVersion := "2.12.4",
+  scalaVersion := "2.12.15",
   test in assembly := {}
 )
 
