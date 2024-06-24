@@ -18,7 +18,7 @@ libraryDependencies ++= {
   val logbackVersion = "1.2.3"
   val typesafeScalaLoggingVersion = "3.7.2"
   val rediscalaVersion = "1.8.0"
-  val embeddedRedisVersion = "0.3.0"
+  val embeddedRedisVersion = "0.4.0"
 
   Seq(
     "io.circe" %% "circe-core" % circeVersion,
