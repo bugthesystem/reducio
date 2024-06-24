@@ -14,7 +14,7 @@ libraryDependencies ++= {
   val specs2Version = "4.14.1"
   val scalaTestVersion = "3.0.9"
   
-  val akkaHttpCirceVersion = "1.18.0"
+  val akkaHttpCirceVersion = "1.18.1"
   val logbackVersion = "1.2.3"
   val typesafeScalaLoggingVersion = "3.7.2"
   val rediscalaVersion = "1.8.0"
