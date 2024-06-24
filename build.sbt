@@ -7,7 +7,7 @@ scalacOptions := Seq("-unchecked", "-feature", "-deprecation", "-encoding", "utf
 scalacOptions in Test ++= Seq("-Yrangepos")
 
 libraryDependencies ++= {
-  val circeVersion = "0.11.1"
+  val circeVersion = "0.12.2"
   val akkaVersion = "10.0.10"
   
   val gatlingVersion = "3.4.0"
